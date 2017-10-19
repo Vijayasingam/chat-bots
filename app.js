@@ -26,8 +26,7 @@ bot.dialog('greetings', [
         session.beginDialog('askQuery');
     },
     function (session, results) {
-        //session.endDialog('Hello %s!', results.response);
-        session.beginDialog('askQuery');
+        session.endDialog('Hello %s!', results.response);
     }
 ]);
 bot.dialog('askQuery', [
