@@ -9,7 +9,7 @@ function getBotName (response) {
     console.log ("**", JSON.stringify (response));
     botName = lodash.filter(questionObjs.kb, x => x.question === response.response);
     console.log ("** botName", botName);
-    return (botName) ? botName : 'noMatchFound';
+    return (botName.length > 0 && botName) ? botName : 'noMatchFound';
 }
 // Setup Restify Server
 var server = restify.createServer();
@@ -37,7 +37,7 @@ bot.dialog('askQuery', [
     },
     function (session, results) {
         let botName = getBotName (results);
-        session.beginDialog(botName);
+        session.beginDialog(botName[0].action);
         // session.endDialogWithResult(results);
     }
 ]);
