@@ -66,7 +66,7 @@ bot.dialog('gemsRequest', [
 ]);
 bot.dialog('cobRequest', [
     function (session) {
-        builder.Prompts.text(session, 'Hi! My Name is Chat Bot');
+        builder.Prompts.text(session, 'Customer Name - XYZ Corp is currently in Onboarding In-Progress status.');
     },
     function (session, results) {
         var botNameLatest = getBotName (results);
@@ -90,9 +90,6 @@ bot.dialog('thankYou', [
     function (session) {
         session.send('You are welcome! Have a great day!');
         session.endDialog();
-    },
-    function (session, results) {
-        session.endDialogWithResult(results);
     }
 ]);
 bot.dialog('thanks', [
