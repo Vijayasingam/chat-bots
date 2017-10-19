@@ -8,8 +8,8 @@ function getBotName (response) {
     var botName;
     console.log ("**", JSON.stringify (response));
     botName = lodash.filter(questionObjs.kb, x => x.question === response.response);
-    console.log ("** botName", botName);
-    return (botName.length > 0 && botName) ? botName : 'noMatchFound';
+    console.log ("** botName", botName.length);
+    return botName;
 }
 // Setup Restify Server
 var server = restify.createServer();
@@ -36,8 +36,9 @@ bot.dialog('askQuery', [
         builder.Prompts.text(session, 'Hi! What is your Query?');
     },
     function (session, results) {
-        let botName = getBotName (results);
-        session.beginDialog(botName[0].action);
+        var botName = getBotName (results);
+        botName = (botName.length > 0) ? botName[0].action : 'noMatchFound';
+        session.beginDialog(botName);
         // session.endDialogWithResult(results);
     }
 ]);
@@ -52,9 +53,8 @@ bot.dialog('showName', [
 bot.dialog('noMatchFound', [
     function (session) {
         session.send('Sorry Unable to understand');
-    },
-    function (session, results) {
-        session.endDialogWithResult(results);
+        session.endDialog();
+        session.beginDialog('askQuery');
     }
 ]);
 
