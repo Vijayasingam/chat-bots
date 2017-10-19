@@ -12,6 +12,6 @@
   "dependencies": {
     "botbuilder": "^3.11.0",
     "lodash": "^4.17.4",
-    "restify": "^6.2.0"
+    "restify": "^6.2.3"
   }
 }

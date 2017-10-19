@@ -28,12 +28,12 @@ server.post('/api/messages', connector.listen());
 
 // Receive messages from the user and respond by echoing each message back (prefixed with 'You said:')
 var bot = new builder.UniversalBot(connector, function (session) {
-    session.send("Welcome RM...");
+    session.send('Hi RM!');
     session.beginDialog('askQuery');
 });
 bot.dialog('askQuery', [
     function (session) {
-        builder.Prompts.text(session, 'Hi! What is your Query?');
+        builder.Prompts.text(session, 'How can I help you?');
     },
     function (session, results) {
         var botName = getBotName (results);
@@ -42,9 +42,52 @@ bot.dialog('askQuery', [
         // session.endDialogWithResult(results);
     }
 ]);
-bot.dialog('showName', [
+bot.dialog('callReportRequest', [
+    function (session) {
+        builder.Prompts.text(session, 'Here is the requested Call Report details\nCall Date - 10 Jul 2017\nCall Subject - Sales Discussion\nCompany Name - XYZ Corp.\nCall Type - Multi-Purpose\nStatus - Completed');
+    },
+    function (session, results) {
+        session.endDialogWithResult(results);
+    }
+]);
+bot.dialog('gemsRequest', [
+    function (session) {
+        builder.Prompts.text(session, 'Please find the requested case details below:\nName - XYZ Corp.\nProduct Group - Money Management\nClassification - Complaint\nCreated Date - 09 Sep 2017\nStatus - Overdue');
+    },
+    function (session, results) {
+        var botNameLatest = getBotName (results);
+        botNameLatest = (botNameLatest.length > 0) ? botNameLatest[0].action : 'noMatchFound';
+        session.beginDialog(botNameLatest);
+        // session.endDialogWithResult(results);
+    }
+]);
+bot.dialog('cobRequest', [
     function (session) {
         session.send('Hi! My Name is Chat Bot');
+    },
+    function (session, results) {
+        session.endDialogWithResult(results);
+    }
+]);
+bot.dialog('dealStageRequest', [
+    function (session) {
+        session.send('Deal Name - XYZ Deal is currently in Marketing stage.');
+    },
+    function (session, results) {
+        session.endDialogWithResult(results);
+    }
+]);
+bot.dialog('thankYou', [
+    function (session) {
+        session.send('You are welcome! Have a great day!');
+    },
+    function (session, results) {
+        session.endDialogWithResult(results);
+    }
+]);
+bot.dialog('thanks', [
+    function (session) {
+        session.send('My pleasure. Have a good day!');
     },
     function (session, results) {
         session.endDialogWithResult(results);
