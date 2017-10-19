@@ -1,10 +1,18 @@
 var restify = require('restify');
 var builder = require('botbuilder');
+var fs = require('fs');
 
+var questionObjs = JSON.parse(fs.readFileSync('ConversationKB.json', 'utf8'));
+function getBotName (response) {
+    let botName;
+    console.log ("**", JSON.stringify (response));
+    botName = questionObjs.kb[response];
+    return (botName) ? botName : 'noMatchFound';
+}
 // Setup Restify Server
 var server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function () {
-   console.log('%s listening to %s', server.name, server.url); 
+    console.log('%s listening to %s', server.name, server.url);
 });
 
 // Create chat connector for communicating with the Bot Framework Service
@@ -18,7 +26,7 @@ server.post('/api/messages', connector.listen());
 
 // Receive messages from the user and respond by echoing each message back (prefixed with 'You said:')
 var bot = new builder.UniversalBot(connector, function (session) {
-    // session.send("You said: %s", session.message.text);
+    session.send("Welcome!");
     session.beginDialog('greetings');
 });
 bot.dialog('greetings', [
@@ -26,7 +34,7 @@ bot.dialog('greetings', [
         session.beginDialog('askQuery');
     },
     function (session, results) {
-        session.endDialog('Hello %s!', results.response);
+        session.endDialog();
     }
 ]);
 bot.dialog('askQuery', [
@@ -34,6 +42,25 @@ bot.dialog('askQuery', [
         builder.Prompts.text(session, 'Hi! What is your Query?');
     },
     function (session, results) {
+        let botName = getBotName (results);
         session.endDialogWithResult(results);
     }
 ]);
+bot.dialog('showName', [
+    function (session) {
+        session.send('Hi! My Name is Chat Bot');
+    },
+    function (session, results) {
+        session.endDialogWithResult(results);
+    }
+]);
+bot.dialog('noMatchFound', [
+    function (session) {
+        session.send('Sorry Unable to understand');
+    },
+    function (session, results) {
+        session.endDialogWithResult(results);
+    }
+]);
+
+

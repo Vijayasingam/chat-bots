@@ -1,0 +1,9 @@
+{
+    "version": "1.0.0",
+    "kb": [
+        {
+            "question": "What is your name",
+            "action" : "showName"
+        }
+    ]
+}
