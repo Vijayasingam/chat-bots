@@ -5,7 +5,7 @@ var fs = require('fs');
 
 var questionObjs = JSON.parse(fs.readFileSync('ConversationKB.json', 'utf8'));
 function getBotName (response) {
-    let botName;
+    var botName;
     console.log ("**", JSON.stringify (response));
     botName = lodash.filter(questionObjs.kb, x => x.question === response.response);
     return (botName) ? botName : 'noMatchFound';
