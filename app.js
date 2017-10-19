@@ -20,18 +20,20 @@ server.post('/api/messages', connector.listen());
 var bot = new builder.UniversalBot(connector, function (session) {
     // session.send("You said: %s", session.message.text);
     session.beginDialog('greetings');
+    session.send('Sorry, I did not understand \'%s\'. Type \'help\' if you need assistance.', session.message.text);
 });
 bot.dialog('greetings', [
     function (session) {
-        session.beginDialog('askName');
+        session.beginDialog('askQuery');
     },
     function (session, results) {
         session.endDialog('Hello %s!', results.response);
+        session.beginDialog('askQuery');
     }
 ]);
-bot.dialog('askName', [
+bot.dialog('askQuery', [
     function (session) {
-        builder.Prompts.text(session, 'Hi! What is your name?');
+        builder.Prompts.text(session, 'Hi! What is your Query?');
     },
     function (session, results) {
         session.endDialogWithResult(results);
