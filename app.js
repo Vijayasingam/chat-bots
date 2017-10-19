@@ -6,7 +6,7 @@ var questionObjs = JSON.parse(fs.readFileSync('ConversationKB.json', 'utf8'));
 function getBotName (response) {
     let botName;
     console.log ("**", JSON.stringify (response));
-    botName = questionObjs.kb[response.response];
+    botName = questionObjs.kb.findBy("question", response.response);
     return (botName) ? botName : 'noMatchFound';
 }
 // Setup Restify Server
