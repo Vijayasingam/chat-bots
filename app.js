@@ -8,6 +8,7 @@ function getBotName (response) {
     var botName;
     console.log ("**", JSON.stringify (response));
     botName = lodash.filter(questionObjs.kb, x => x.question === response.response);
+    console.log ("** botName", botName);
     return (botName) ? botName : 'noMatchFound';
 }
 // Setup Restify Server
