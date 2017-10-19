@@ -27,23 +27,16 @@ server.post('/api/messages', connector.listen());
 // Receive messages from the user and respond by echoing each message back (prefixed with 'You said:')
 var bot = new builder.UniversalBot(connector, function (session) {
     session.send("Welcome!");
-    session.beginDialog('greetings');
+    session.beginDialog('askQuery');
 });
-bot.dialog('greetings', [
-    function (session) {
-        session.beginDialog('askQuery');
-    },
-    function (session, results) {
-        session.endDialog();
-    }
-]);
 bot.dialog('askQuery', [
     function (session) {
         builder.Prompts.text(session, 'Hi! What is your Query?');
     },
     function (session, results) {
         let botName = getBotName (results);
-        session.endDialogWithResult(results);
+        session.beginDialog(botName);
+        // session.endDialogWithResult(results);
     }
 ]);
 bot.dialog('showName', [
