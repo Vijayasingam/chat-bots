@@ -55,7 +55,7 @@ bot.dialog('callReportRequest', [
 ]);
 bot.dialog('gemsRequest', [
     function (session) {
-        builder.Prompts.text(session, 'Please find the requested case details below:\nName - XYZ Corp.\nProduct Group - Money Management\nClassification - Complaint\nCreated Date - 09 Sep 2017\nStatus - Overdue');
+        builder.Prompts.text(session, 'Please find the requested case details:\nName - XYZ Corp.\nProduct Group - Money Management\nClassification - Complaint\nCreated Date - 09 Sep 2017\nStatus - Overdue');
     },
     function (session, results) {
         var botNameLatest = getBotName (results);
