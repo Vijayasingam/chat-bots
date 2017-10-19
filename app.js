@@ -47,7 +47,10 @@ bot.dialog('callReportRequest', [
         builder.Prompts.text(session, 'Here is the requested Call Report details\nCall Date - 10 Jul 2017\nCall Subject - Sales Discussion\nCompany Name - XYZ Corp.\nCall Type - Multi-Purpose\nStatus - Completed');
     },
     function (session, results) {
-        session.endDialogWithResult(results);
+        var botNameLatest = getBotName (results);
+        botNameLatest = (botNameLatest.length > 0) ? botNameLatest[0].action : 'noMatchFound';
+        session.beginDialog(botNameLatest);
+        // session.endDialogWithResult(results);
     }
 ]);
 bot.dialog('gemsRequest', [
@@ -63,23 +66,30 @@ bot.dialog('gemsRequest', [
 ]);
 bot.dialog('cobRequest', [
     function (session) {
-        session.send('Hi! My Name is Chat Bot');
+        builder.Prompts.text(session, 'Hi! My Name is Chat Bot');
     },
     function (session, results) {
-        session.endDialogWithResult(results);
+        var botNameLatest = getBotName (results);
+        botNameLatest = (botNameLatest.length > 0) ? botNameLatest[0].action : 'noMatchFound';
+        session.beginDialog(botNameLatest);
+        // session.endDialogWithResult(results);
     }
 ]);
 bot.dialog('dealStageRequest', [
     function (session) {
-        session.send('Deal Name - XYZ Deal is currently in Marketing stage.');
+        builder.Prompts.text(session, 'Deal Name - XYZ Deal is currently in Marketing stage.');
     },
     function (session, results) {
-        session.endDialogWithResult(results);
+        var botNameLatest = getBotName (results);
+        botNameLatest = (botNameLatest.length > 0) ? botNameLatest[0].action : 'noMatchFound';
+        session.beginDialog(botNameLatest);
+        // session.endDialogWithResult(results);
     }
 ]);
 bot.dialog('thankYou', [
     function (session) {
         session.send('You are welcome! Have a great day!');
+        session.endDialog();
     },
     function (session, results) {
         session.endDialogWithResult(results);
@@ -88,9 +98,7 @@ bot.dialog('thankYou', [
 bot.dialog('thanks', [
     function (session) {
         session.send('My pleasure. Have a good day!');
-    },
-    function (session, results) {
-        session.endDialogWithResult(results);
+        session.endDialog();
     }
 ]);
 bot.dialog('noMatchFound', [
