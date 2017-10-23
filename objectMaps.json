@@ -1,0 +1,6 @@
+{
+    "gems_request" : "gemsRequest",
+    "cdd_request" : "cobRequest",
+    "deal_pipeline_request" : "dealStageRequest",
+    "thankYou": "thankYou"
+}

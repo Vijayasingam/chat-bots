@@ -2,16 +2,19 @@ var lodash = require('lodash');
 var restify = require('restify');
 var builder = require('botbuilder');
 var fs = require('fs');
+var Bravey = require("bravey");
+var nlp = new Bravey.Nlp.Fuzzy();
 var mockServer = require('./mockServer');
+var braveyLearning = require('./braveyLearning');
 
-var questionObjs = JSON.parse(fs.readFileSync('ConversationKB.json', 'utf8'));
-function getBotName (response) {
-    var botName;
-    console.log ("**", JSON.stringify (response));
-    botName = lodash.filter(questionObjs.kb, x => x.question === response.response);
-    console.log ("** botName", botName.length);
-    return botName;
+var objectMaps = JSON.parse(fs.readFileSync('objectMaps.json', 'utf8'));
+function getBotDetails (response) {
+    var botName, queryObject = nlp.test(response.response);
+    console.log ("**", queryObject)
+    return (queryObject) ? objectMaps[queryObject.intent] : 'noMatchFound';
 }
+//Setup Bravey Documents
+braveyLearning.init(Bravey, nlp);
 // Setup Restify Server
 var server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function () {
@@ -36,15 +39,16 @@ var bot = new builder.UniversalBot(connector, function (session) {
     session.send('Hi RM!');
     session.beginDialog('askQuery');
 });
+function continueConversation (session, results) {
+    var botName = getBotDetails (results);
+    session.beginDialog(botName);
+}
 bot.dialog('askQuery', [
     function (session) {
         builder.Prompts.text(session, 'How can I help you?');
     },
     function (session, results) {
-        var botName = getBotName (results);
-        botName = (botName.length > 0) ? botName[0].action : 'noMatchFound';
-        session.beginDialog(botName);
-        // session.endDialogWithResult(results);
+        continueConversation (session, results)
     }
 ]);
 bot.dialog('callReportRequest', [
@@ -52,10 +56,7 @@ bot.dialog('callReportRequest', [
         builder.Prompts.text(session, 'Here is the requested Call Report details\nCall Date - 10 Jul 2017\nCall Subject - Sales Discussion\nCompany Name - XYZ Corp.\nCall Type - Multi-Purpose\nStatus - Completed');
     },
     function (session, results) {
-        var botNameLatest = getBotName (results);
-        botNameLatest = (botNameLatest.length > 0) ? botNameLatest[0].action : 'noMatchFound';
-        session.beginDialog(botNameLatest);
-        // session.endDialogWithResult(results);
+        continueConversation (session, results)
     }
 ]);
 bot.dialog('gemsRequest', [
@@ -63,10 +64,7 @@ bot.dialog('gemsRequest', [
         builder.Prompts.text(session, 'Please find the requested case details:\nName - XYZ Corp.\nProduct Group - Money Management\nClassification - Complaint\nCreated Date - 09 Sep 2017\nStatus - Overdue');
     },
     function (session, results) {
-        var botNameLatest = getBotName (results);
-        botNameLatest = (botNameLatest.length > 0) ? botNameLatest[0].action : 'noMatchFound';
-        session.beginDialog(botNameLatest);
-        // session.endDialogWithResult(results);
+        continueConversation (session, results)
     }
 ]);
 bot.dialog('cobRequest', [
@@ -74,10 +72,7 @@ bot.dialog('cobRequest', [
         builder.Prompts.text(session, 'Customer Name - XYZ Corp is currently in Onboarding In-Progress status.');
     },
     function (session, results) {
-        var botNameLatest = getBotName (results);
-        botNameLatest = (botNameLatest.length > 0) ? botNameLatest[0].action : 'noMatchFound';
-        session.beginDialog(botNameLatest);
-        // session.endDialogWithResult(results);
+        continueConversation (session, results)
     }
 ]);
 bot.dialog('dealStageRequest', [
@@ -85,10 +80,7 @@ bot.dialog('dealStageRequest', [
         builder.Prompts.text(session, 'Deal Name - XYZ Deal is currently in Marketing stage.');
     },
     function (session, results) {
-        var botNameLatest = getBotName (results);
-        botNameLatest = (botNameLatest.length > 0) ? botNameLatest[0].action : 'noMatchFound';
-        session.beginDialog(botNameLatest);
-        // session.endDialogWithResult(results);
+        continueConversation (session, results)
     }
 ]);
 bot.dialog('thankYou', [
