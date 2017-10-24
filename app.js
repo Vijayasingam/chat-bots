@@ -9,9 +9,13 @@ var braveyLearning = require('./braveyLearning');
 
 var objectMaps = JSON.parse(fs.readFileSync('objectMaps.json', 'utf8'));
 function getBotDetails (response) {
+    console.log ("!!", response);
+    if (!response.response || response.response === true) {
+        return {botName: 'noMatchFound', queryObject: {}}
+    }
     var botName, queryObject = nlp.test(response.response);
     console.log ("**", queryObject)
-    return (queryObject) ? objectMaps[queryObject.intent] : 'noMatchFound';
+    return (queryObject) ? {botName: objectMaps[queryObject.intent], queryObject: queryObject }: {botName: 'noMatchFound', queryObject: {}};
 }
 //Setup Bravey Documents
 braveyLearning.init(Bravey, nlp);
@@ -35,13 +39,15 @@ server.get('/api/cobDetails', mockServer.COBData);
 server.get('/api/dealDetails', mockServer.dealData);
 
 // Receive messages from the user and respond by echoing each message back (prefixed with 'You said:')
-var bot = new builder.UniversalBot(connector, function (session) {
-    session.send('Hi RM!');
+var bot = new builder.UniversalBot(connector, function (session, results, config) {
+    console.log ('##', session, results, config);
+    session.send (`Hi ${session.message.user.name} !`)
     session.beginDialog('askQuery');
 });
 function continueConversation (session, results) {
-    var botName = getBotDetails (results);
-    session.beginDialog(botName);
+    var botObj = getBotDetails (results);
+    session.queryObject = botObj.queryObject
+    session.beginDialog(botObj.botName);
 }
 bot.dialog('askQuery', [
     function (session) {
@@ -61,7 +67,15 @@ bot.dialog('callReportRequest', [
 ]);
 bot.dialog('gemsRequest', [
     function (session) {
-        builder.Prompts.text(session, 'Please find the requested case details:\nName - XYZ Corp.\nProduct Group - Money Management\nClassification - Complaint\nCreated Date - 09 Sep 2017\nStatus - Overdue');
+        if (session.queryObject.entitiesIndex['gems_sr_req_id']) {
+            builder.Prompts.text(session, `Please find the requested case details:\nName - XYZ Corp.\nProduct Group - Money Management\nClassification - Complaint\nCreated Date - 09 Sep 2017\nStatus - Overdue`);
+        } else {
+            if (!session.customObject) {
+                session.customObject = {};
+            }
+            session.customObject.customQuestion = 'the case ID';
+            session.beginDialog('getIdFromUser');
+        }
     },
     function (session, results) {
         continueConversation (session, results)
@@ -77,7 +91,23 @@ bot.dialog('cobRequest', [
 ]);
 bot.dialog('dealStageRequest', [
     function (session) {
-        builder.Prompts.text(session, 'Deal Name - XYZ Deal is currently in Marketing stage.');
+        if (session.queryObject.entitiesIndex['deal_pipeline_id']) {
+            builder.Prompts.text(session, 'Deal Name - XYZ Deal is currently in Marketing stage.');
+        } else {
+            if (!session.customObject) {
+                session.customObject = {};
+            }
+            session.customObject.customQuestion = 'the Deal ID';
+            session.beginDialog('getIdFromUser');
+        }
+    },
+    function (session, results) {
+        continueConversation (session, results)
+    }
+]);
+bot.dialog('getIdFromUser', [
+    function (session) {
+        builder.Prompts.text(session, `Please enter ${session.customObject.customQuestion}`);
     },
     function (session, results) {
         continueConversation (session, results)
@@ -86,12 +116,6 @@ bot.dialog('dealStageRequest', [
 bot.dialog('thankYou', [
     function (session) {
         session.send('You are welcome! Have a great day!');
-        session.endDialog();
-    }
-]);
-bot.dialog('thanks', [
-    function (session) {
-        session.send('My pleasure. Have a good day!');
         session.endDialog();
     }
 ]);

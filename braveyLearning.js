@@ -33,6 +33,11 @@ exports.init = function (Bravey, nlp) {
     nlp.addDocument("Thank you", "thankYou");
     nlp.addDocument("thanks", "thankYou");
     
+    nlp.addIntent("askQuery", []);
+    nlp.addDocument("Hi hello", "askQuery");
+    nlp.addDocument("Hey", "askQuery");
+    nlp.addDocument("Hello", "askQuery");
+    
     console.log(nlp.test("Get me GEMS case details for SR-AE-20170909-TD1231"));
     console.log(nlp.test("What is the Deal stage for DEAL-XY-2022-22-222000"));
 }
