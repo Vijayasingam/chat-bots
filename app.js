@@ -11,7 +11,7 @@ var objectMaps = JSON.parse(fs.readFileSync('objectMaps.json', 'utf8'));
 function getBotDetails (response) {
     console.log ("!!", response);
     if (!response.response || response.response === true) {
-        return {botName: 'noMatchFound', queryObject: {}}
+        return {botName: 'endDialog', queryObject: {}}
     }
     var botName, queryObject = nlp.test(response.response);
     console.log ("**", queryObject)
@@ -124,6 +124,11 @@ bot.dialog('noMatchFound', [
         session.send('Sorry Unable to understand');
         session.endDialog();
         session.beginDialog('askQuery');
+    }
+]);
+bot.dialog('endDialog', [
+    function (session) {
+        session.endDialog();
     }
 ]);
 
