@@ -8,13 +8,21 @@ exports.callReportData = function (req, res) {
     });
 }
 exports.gemsData = function (req, res) {
-    res.send({
-        "name": "XYZ Corp.",
-        "productGroup": "Money Management",
-        "classification": "Complaint",
-        "createdDate": "09 Sep 2017",
-        "status": "Overdue"
-    });
+    if (req.params.id === "SR-AE-20170909-TD1231") {
+        res.send({
+            "error": false,
+            "name": "XYZ Corp.",
+            "productGroup": "Money Management",
+            "classification": "Complaint",
+            "createdDate": "09 Sep 2017",
+            "status": "Overdue"
+        });
+    } else {
+        res.send({
+            "error": true,
+            "errorMessage": "No Case found. Please search for some other Case ID."
+        });
+    }
 }
 exports.COBData = function (req, res) {
     res.send({

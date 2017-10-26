@@ -32,7 +32,7 @@ var connector = new builder.ChatConnector({
 
 // Listen for messages from users 
 server.post('/api/messages', connector.listen());
-server.get('/api/gemsCaseDetails', mockServer.gemsData);
+server.get('/api/gemsCaseDetails/:id', mockServer.gemsData);
 server.get('/api/callReportDetails', mockServer.callReportData);
 server.get('/api/cobDetails', mockServer.COBData);
 server.get('/api/dealDetails', mockServer.dealData);
@@ -75,10 +75,16 @@ bot.dialog('gemsRequest', [
         if (session.queryObject.entitiesIndex['gems_sr_req_id']) {
             var params = {
                 method: 'GET',
-                path: '/api/gemsCaseDetails'
+                path: `/api/gemsCaseDetails/`+session.queryObject.entitiesIndex['gems_sr_req_id'].string.toUpperCase()
             };
             request.httpRequest(params).then(function(body) {
-                builder.Prompts.text(session, `Please find the requested case details: Name - ${body.name} Product Group - ${body.productGroup} Classification - ${body.classification} Created Date - ${body.createdDate} Status - ${body.status}`);
+                var msg;
+                if (body.error) {
+                    msg = body.errorMessage;
+                } else {
+                    msg = `Please find the requested case details: Name - ${body.name} Product Group - ${body.productGroup} Classification - ${body.classification} Created Date - ${body.createdDate} Status - ${body.status}`;
+                }
+                builder.Prompts.text(session, msg);
             });
         } else {
             if (!session.customObject) {
