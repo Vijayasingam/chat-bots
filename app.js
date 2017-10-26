@@ -6,15 +6,14 @@ var Bravey = require("bravey");
 var nlp = new Bravey.Nlp.Fuzzy();
 var mockServer = require('./mockServer');
 var braveyLearning = require('./braveyLearning');
+var request = require('./httpRequest');
 
 var objectMaps = JSON.parse(fs.readFileSync('objectMaps.json', 'utf8'));
 function getBotDetails (response) {
-    console.log ("!!", response);
     if (!response.response || response.response === true) {
         return {botName: 'endDialog', queryObject: {}}
     }
     var botName, queryObject = nlp.test(response.response);
-    console.log ("**", queryObject)
     return (queryObject) ? {botName: objectMaps[queryObject.intent], queryObject: queryObject }: {botName: 'noMatchFound', queryObject: {}};
 }
 //Setup Bravey Documents
@@ -40,7 +39,6 @@ server.get('/api/dealDetails', mockServer.dealData);
 
 // Receive messages from the user and respond by echoing each message back (prefixed with 'You said:')
 var bot = new builder.UniversalBot(connector, function (session, results, config) {
-    console.log ('##', session, results, config);
     session.send (`Hi ${session.message.user.name} !`)
     session.beginDialog('askQuery');
 });
@@ -59,7 +57,14 @@ bot.dialog('askQuery', [
 ]);
 bot.dialog('callReportRequest', [
     function (session) {
-        builder.Prompts.text(session, 'Here is the requested Call Report details\nCall Date - 10 Jul 2017\nCall Subject - Sales Discussion\nCompany Name - XYZ Corp.\nCall Type - Multi-Purpose\nStatus - Completed');
+        var params = {
+            method: 'GET',
+            path: '/api/callReportDetails'
+        };
+        request.httpRequest(params).then(function(body) {
+            builder.Prompts.text(session, `Here is the requested Call Report details Call Date - ${body.callDate} Call Subject - ${body.callSubject} Company Name - ${body.companyName} Call Type - ${body.callType} Status - ${body.status}`);
+        });
+        
     },
     function (session, results) {
         continueConversation (session, results)
@@ -68,7 +73,13 @@ bot.dialog('callReportRequest', [
 bot.dialog('gemsRequest', [
     function (session) {
         if (session.queryObject.entitiesIndex['gems_sr_req_id']) {
-            builder.Prompts.text(session, `Please find the requested case details:\nName - XYZ Corp.\nProduct Group - Money Management\nClassification - Complaint\nCreated Date - 09 Sep 2017\nStatus - Overdue`);
+            var params = {
+                method: 'GET',
+                path: '/api/gemsCaseDetails'
+            };
+            request.httpRequest(params).then(function(body) {
+                builder.Prompts.text(session, `Please find the requested case details: Name - ${body.name} Product Group - ${body.productGroup} Classification - ${body.classification} Created Date - ${body.createdDate} Status - ${body.status}`);
+            });
         } else {
             if (!session.customObject) {
                 session.customObject = {};
@@ -83,7 +94,13 @@ bot.dialog('gemsRequest', [
 ]);
 bot.dialog('cobRequest', [
     function (session) {
-        builder.Prompts.text(session, 'Customer Name - XYZ Corp is currently in Onboarding In-Progress status.');
+        var params = {
+            method: 'GET',
+            path: '/api/cobDetails'
+        };
+        request.httpRequest(params).then(function(body) {
+            builder.Prompts.text(session, `Customer Name - ${body.customerName} is currently in Onboarding ${body.status} status.`);
+        });  
     },
     function (session, results) {
         continueConversation (session, results)
@@ -92,7 +109,13 @@ bot.dialog('cobRequest', [
 bot.dialog('dealStageRequest', [
     function (session) {
         if (session.queryObject.entitiesIndex['deal_pipeline_id']) {
-            builder.Prompts.text(session, 'Deal Name - XYZ Deal is currently in Marketing stage.');
+            var params = {
+                method: 'GET',
+                path: '/api/dealDetails'
+            };
+            request.httpRequest(params).then(function(body) {
+                builder.Prompts.text(session, `Deal Name - ${body.dealName} is currently in ${body.stage} stage.`);
+            });
         } else {
             if (!session.customObject) {
                 session.customObject = {};
