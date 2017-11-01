@@ -17,7 +17,7 @@ exports.gemsData = function (req, res) {
             "createdDate": "09 Sep 2017",
             "status": "Overdue",
             "queryType": "Account Opening / Closing Related",
-            "lastUpdatedBy": "12345678 - LName, FName"
+            "lastUpdatedBy": "1109908 - Joe, John"
         });
     } else {
         res.send({
