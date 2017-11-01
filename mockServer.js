@@ -15,7 +15,9 @@ exports.gemsData = function (req, res) {
             "productGroup": "Money Management",
             "classification": "Complaint",
             "createdDate": "09 Sep 2017",
-            "status": "Overdue"
+            "status": "Overdue",
+            "queryType": "Account Opening / Closing Related",
+            "lastUpdatedBy": "12345678 - LName, FName"
         });
     } else {
         res.send({
