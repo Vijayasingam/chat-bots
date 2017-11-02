@@ -3,7 +3,7 @@ var constants = require('./constants');
 exports.httpRequest = function(params, postData) {
     return new Promise(function(resolve, reject) {
         params.host = constants.HOST;
-        params.port = constants.PORT;
+        params.port = process.env.port || process.env.PORT || 3978;
         var req = http.request(params, function(res) {
             // reject on bad status
             if (res.statusCode < 200 || res.statusCode >= 300) {
