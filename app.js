@@ -90,7 +90,7 @@ bot.dialog('gemsRequest', [
             if (!session.customObject) {
                 session.customObject = {};
             }
-            session.customObject.customQuestion = 'the case ID';
+            session.customObject.customQuestion = 'the GEMS case ID';
             session.beginDialog('getIdFromUser');
         }
     },
