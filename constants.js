@@ -1,4 +1,4 @@
 module.exports = Object.freeze({
-    HOST:  'https://singam-chatbot.herokuapp.com/',
+    HOST:  'singam-chatbot.herokuapp.com',
     PORT: 8080
 });
