@@ -8,6 +8,8 @@ var mockServer = require('./mockServer');
 var braveyLearning = require('./braveyLearning');
 var request = require('./httpRequest');
 
+var APPID = '48f5d0d7-804e-42e5-96f2-f59ed8b6ce24';
+var APPPWD = 'XzYVeH1HYx0DYxq1jfTJYXF';
 var objectMaps = JSON.parse(fs.readFileSync('objectMaps.json', 'utf8'));
 function getBotDetails (response) {
     if (!response.response || response.response === true) {
@@ -26,8 +28,22 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
 
 // Create chat connector for communicating with the Bot Framework Service
 var connector = new builder.ChatConnector({
-    appId: '48f5d0d7-804e-42e5-96f2-f59ed8b6ce24',
-    appPassword: 'XzYVeH1HYx0DYxq1jfTJYXF'
+    appId: APPID,
+    appPassword: APPPWD,
+    endpoint: {
+        refreshEndpoint: 'https://bot-services-app.herokuapp.com/botframework.com/oauth2/v2.0/token',
+        refreshScope: 'https://bot-services-app.herokuapp.com/.default',
+        botConnectorOpenIdMetadata: 'https://bot-services-app.herokuapp.com/v1/.well-known/openidconfiguration',
+        botConnectorIssuer: 'https://api.botframework.com',
+        botConnectorAudience: APPID,
+        emulatorOpenIdMetadata: 'https://login.microsoftonline.com/botframework.com/v2.0/.well-known/openid-configuration',
+        emulatorAudience: APPID,
+        emulatorAuthV31IssuerV1: 'https://sts.windows.net/d6d49420-f39b-4df7-a1dc-d59a935871db/',
+        emulatorAuthV31IssuerV2: 'https://login.microsoftonline.com/d6d49420-f39b-4df7-a1dc-d59a935871db/v2.0',
+        emulatorAuthV32IssuerV1: 'https://sts.windows.net/f8cdef31-a31e-4b4a-93e4-5f571e91255a/',
+        emulatorAuthV32IssuerV2: 'https://login.microsoftonline.com/f8cdef31-a31e-4b4a-93e4-5f571e91255a/v2.0',
+        stateEndpoint: 'https://state.botframework.com'
+    }
 });
 
 // Listen for messages from users 
