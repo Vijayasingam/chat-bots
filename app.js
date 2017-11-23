@@ -59,7 +59,7 @@ bot.dialog('askQuery', [
 ]);
 bot.dialog('askQuery2', [
     function (session) {
-        builder.Prompts.text(session, 'I can help you with following information, <br/> 1. GEMS Case enquiry.<br/> 2. Deal stage query.', {textFormat: 'xml'});
+        builder.Prompts.text(session, 'I can help you with following information, <br/>1. GEMS Case enquiry.<br/>2. Deal stage query.', {textFormat: 'xml'});
     },
     function (session, results) {
         continueConversation (session, results)
