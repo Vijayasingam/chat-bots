@@ -57,6 +57,14 @@ bot.dialog('askQuery', [
         continueConversation (session, results)
     }
 ]);
+bot.dialog('askQuery2', [
+    function (session) {
+        builder.Prompts.text(session, 'I can help you with following information, <br/> 1. GEMS Case enquiry.<br/> 2. Deal stage query.', {textFormat: 'xml'});
+    },
+    function (session, results) {
+        continueConversation (session, results)
+    }
+]);
 bot.dialog('callReportRequest', [
     function (session) {
         var params = {
@@ -154,7 +162,7 @@ bot.dialog('noMatchFound', [
     function (session) {
         session.send('Sorry Unable to understand');
         session.endDialog();
-        session.beginDialog('askQuery');
+        session.beginDialog('askQuery2');
     }
 ]);
 bot.dialog('endDialog', [
