@@ -51,7 +51,7 @@ function continueConversation (session, results) {
 }
 bot.dialog('askQuery', [
     function (session) {
-        builder.Prompts.text(session, 'How can I help you?');
+        builder.Prompts.text(session, 'How can I help you?', {textFormat: 'markdown'});
     },
     function (session, results) {
         continueConversation (session, results)
@@ -64,7 +64,7 @@ bot.dialog('callReportRequest', [
             path: '/api/callReportDetails'
         };
         request.httpRequest(params).then(function(body) {
-            builder.Prompts.text(session, `Here is the requested Call Report details Call Date - ${body.callDate} Call Subject - ${body.callSubject} Company Name - ${body.companyName} Call Type - ${body.callType} Status - ${body.status}`);
+            builder.Prompts.text(session, `Here is the requested Call Report details Call Date - ${body.callDate} Call Subject - ${body.callSubject} Company Name - ${body.companyName} Call Type - ${body.callType} Status - ${body.status}`, {textFormat: 'markdown'});
         });
         
     },
@@ -84,9 +84,9 @@ bot.dialog('gemsRequest', [
                 if (body.error) {
                     msg = body.errorMessage;
                 } else {
-                    msg = `Please find the requested case details: Name - ${body.name} Product Group - ${body.productGroup} Query Type - ${body.queryType} Classification - ${body.classification} Created Date - ${body.createdDate} Status - ${body.status} Last Updated By - ${body.lastUpdatedBy}`;
+                    msg = 'Please find the requested case details: ..* Name'+ ` - ${body.name} ..*Product Group - ${body.productGroup} ..*Query Type - ${body.queryType} ..*Classification - ${body.classification} ..*Created Date - ${body.createdDate} Status - ${body.status} Last Updated By - ${body.lastUpdatedBy}`;
                 }
-                builder.Prompts.text(session, msg);
+                builder.Prompts.text(session, msg, {textFormat: 'markdown'});
             });
         } else {
             if (!session.customObject) {
@@ -107,7 +107,7 @@ bot.dialog('cobRequest', [
             path: '/api/cobDetails'
         };
         request.httpRequest(params).then(function(body) {
-            builder.Prompts.text(session, `Customer Name - ${body.customerName} is currently in Onboarding ${body.status} status.`);
+            builder.Prompts.text(session, `Customer Name - ${body.customerName} is currently in Onboarding ${body.status} status.`, {textFormat: 'markdown'});
         });  
     },
     function (session, results) {
@@ -122,7 +122,7 @@ bot.dialog('dealStageRequest', [
                 path: '/api/dealDetails'
             };
             request.httpRequest(params).then(function(body) {
-                builder.Prompts.text(session, `Deal Name - ${body.dealName} is currently in ${body.stage} stage.`);
+                builder.Prompts.text(session, `Deal Name - ${body.dealName} is currently in ${body.stage} stage.`, {textFormat: 'markdown'});
             });
         } else {
             if (!session.customObject) {
@@ -138,7 +138,7 @@ bot.dialog('dealStageRequest', [
 ]);
 bot.dialog('getIdFromUser', [
     function (session) {
-        builder.Prompts.text(session, `Please enter ${session.customObject.customQuestion}`);
+        builder.Prompts.text(session, `Please enter ${session.customObject.customQuestion}`, {textFormat: 'markdown'});
     },
     function (session, results) {
         continueConversation (session, results)
