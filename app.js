@@ -85,13 +85,13 @@ bot.dialog('gemsRequest', [
                     msg = body.errorMessage;
                 } else {
                     msg = `Please find the requested case details: 
-                    * Name - ${body.name} 
-                    * Product Group - ${body.productGroup} 
-                    * Query Type - ${body.queryType} 
-                    * Classification - ${body.classification} 
-                    * Created Date - ${body.createdDate} 
-                    * Status - ${body.status} 
-                    * Last Updated By - ${body.lastUpdatedBy}`;
+                    Name - ${body.name} 
+                    Product Group - ${body.productGroup} 
+                    Query Type - ${body.queryType} 
+                    Classification - ${body.classification} 
+                    Created Date - ${body.createdDate} 
+                    Status - ${body.status} 
+                    Last Updated By - ${body.lastUpdatedBy}`;
                 }
                 builder.Prompts.text(session, msg, {textFormat: 'markdown'});
             });
