@@ -84,7 +84,7 @@ bot.dialog('gemsRequest', [
                 if (body.error) {
                     msg = body.errorMessage;
                 } else {
-                    msg = `Please find the requested case details: <b>Name</b> - ${body.name} <br/><b>Product Group</b> - ${body.productGroup} <br/><b>Query Type</b> - ${body.queryType} <br/><b>Classification</b> - ${body.classification} <br/><b>Created Date</b> - ${body.createdDate} <br/><b>Status</b> - ${body.status} <br/><b>Last Updated By</b> - ${body.lastUpdatedBy}`;
+                    msg = `Please find the requested case details:<br/><b>Name</b> - ${body.name} <br/><b>Product Group</b> - ${body.productGroup} <br/><b>Query Type</b> - ${body.queryType} <br/><b>Classification</b> - ${body.classification} <br/><b>Created Date</b> - ${body.createdDate} <br/><b>Status</b> - ${body.status} <br/><b>Last Updated By</b> - ${body.lastUpdatedBy}`;
                 }
                 builder.Prompts.text(session, msg, {textFormat: 'xml'});
             });
@@ -122,7 +122,7 @@ bot.dialog('dealStageRequest', [
                 path: '/api/dealDetails'
             };
             request.httpRequest(params).then(function(body) {
-                builder.Prompts.text(session, `Deal Name - ${body.dealName} is currently in ${body.stage} stage.`, {textFormat: 'xml'});
+                builder.Prompts.text(session, `Deal Name <b>${body.dealName}</b> is currently in <b>${body.stage}</b> stage.`, {textFormat: 'xml'});
             });
         } else {
             if (!session.customObject) {
