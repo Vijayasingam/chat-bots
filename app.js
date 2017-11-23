@@ -122,7 +122,7 @@ bot.dialog('dealStageRequest', [
                 path: '/api/dealDetails'
             };
             request.httpRequest(params).then(function(body) {
-                builder.Prompts.text(session, `Deal Name <b>${body.dealName}</b> is currently in <b>${body.stage}</b> stage.`, {textFormat: 'xml'});
+                builder.Prompts.text(session, `Deal <b>${body.dealName}</b> is currently in <b>${body.stage}</b> stage.`, {textFormat: 'xml'});
             });
         } else {
             if (!session.customObject) {

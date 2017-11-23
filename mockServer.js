@@ -34,7 +34,7 @@ exports.COBData = function (req, res) {
 }
 exports.dealData = function (req, res) {
     res.send({
-        "dealName": "XYZ Deal",
+        "dealName": "XYZ Transit",
         "stage": "Marketing"
     });
 }
