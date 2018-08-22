@@ -38,3 +38,15 @@ exports.dealData = function (req, res) {
         "stage": "Marketing"
     });
 }
+exports.dealCCRStatus = function (req, res) {
+    res.send({
+        "dealName": "XYZ Transit",
+        "ccrStatus": "Business Input Required"
+    });
+}
+exports.documentDetails = function (req, res) {
+    res.send({
+        "doc1": "HOS Sheet",
+        "doc2": "FATCA Report"
+    });
+}

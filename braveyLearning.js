@@ -15,7 +15,7 @@ exports.init = function (Bravey, nlp) {
     nlp.addDocument("Help me with {gems_case_req_identifier} {gems_case_id}", "gems_request");
     nlp.addDocument("Get me {gems_case_req_identifier} case details for {gems_case_id}", "gems_request");
     nlp.addDocument("What is {gems_case_req_identifier} {gems_case_id}", "gems_request");
-    
+
     nlp.addIntent("deal_pipeline_request", [{ entity: "deal_pipeline_req_identifier", id: "deal_pipeline_type" }, { entity: "deal_id", id: "deal_pipeline_id" }]);
     var deal = new Bravey.StringEntityRecognizer("deal_pipeline_req_identifier");
     deal.addMatch("deal", "Deal");
@@ -28,16 +28,44 @@ exports.init = function (Bravey, nlp) {
     nlp.addDocument("Help me with stage update on {deal_pipeline_req_identifier} {deal_id}", "deal_pipeline_request");
     nlp.addDocument("Get me {deal_pipeline_req_identifier} details for {deal_id}", "deal_pipeline_request");
     nlp.addDocument("What is {deal_pipeline_req_identifier} stage for {deal_id}", "deal_pipeline_request");
-    
+
     nlp.addIntent("thankYou", []);
     nlp.addDocument("Thank you", "thankYou");
     nlp.addDocument("thanks", "thankYou");
-    
+
     nlp.addIntent("askQuery", []);
     nlp.addDocument("Hi hello", "askQuery");
     nlp.addDocument("Hey", "askQuery");
     nlp.addDocument("Hello", "askQuery");
-    
+
+    nlp.addIntent("ccr_status_request", [{ entity: "ccr_status_req_identifier", id: "ccr_type" }]);
+    var ccr = new Bravey.StringEntityRecognizer("ccr_status_req_identifier");
+    ccr.addMatch("ccr", "CCR");
+    ccr.addMatch("ccr", "ccr");
+    ccr.addMatch("ccr", "Conflicts Clearance");
+    nlp.addEntity(ccr);
+    nlp.addDocument("I want {ccr_status_req_identifier}", "ccr_status_request");
+    nlp.addDocument("Help me with {ccr_status_req_identifier} status", "ccr_status_request");
+    nlp.addDocument("Get me {ccr_status_req_identifier} details", "ccr_status_request");
+    nlp.addDocument("What is {ccr_status_req_identifier} stage", "ccr_status_request");
+
+    nlp.addIntent("doc_details_request", [{ entity: "doc_details_req_identifier", id: "document_type" }]);
+    var document = new Bravey.StringEntityRecognizer("doc_details_req_identifier");
+    document.addMatch("document", "document");
+    document.addMatch("document", "Document");
+    document.addMatch("document", "Deal Document");
+    document.addMatch("document", "Deal Documents");
+    document.addMatch("document", "Deal Docs");
+    document.addMatch("document", "Docs");
+    document.addMatch("document", "docs");
+    nlp.addEntity(document);
+    nlp.addDocument("I want pending {doc_details_req_identifier}", "doc_details_request");
+    nlp.addDocument("Help me with {doc_details_req_identifier} required list", "doc_details_request");
+    nlp.addDocument("Get me {doc_details_req_identifier} pending details", "doc_details_request");
+    nlp.addDocument("What are the {doc_details_req_identifier} pending", "doc_details_request");
+
     console.log(nlp.test("Get me GEMS case details for SR-AE-20170909-TD1231"));
     console.log(nlp.test("What is the Deal stage for DEAL-XY-2022-22-222000"));
+    console.log(nlp.test("Help me with Conflicts Clearance"));
+    console.log(nlp.test("What are the docs pending to be uploaded for closure"));
 }

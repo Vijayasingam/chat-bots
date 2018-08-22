@@ -38,7 +38,8 @@ server.get('/api/gemsCaseDetails/:id', mockServer.gemsData);
 server.get('/api/callReportDetails', mockServer.callReportData);
 server.get('/api/cobDetails', mockServer.COBData);
 server.get('/api/dealDetails', mockServer.dealData);
-
+server.get('/api/dealCCRStatus', mockServer.dealCCRStatus);
+server.get('/api/documentDetails', mockServer.documentDetails);
 // Receive messages from the user and respond by echoing each message back (prefixed with 'You said:')
 var bot = new builder.UniversalBot(connector, function (session, results, config) {
     session.send (`Hi ${session.message.user.name} !`)
@@ -74,7 +75,7 @@ bot.dialog('callReportRequest', [
         request.httpRequest(params).then(function(body) {
             builder.Prompts.text(session, `Here is the requested Call Report details Call Date - ${body.callDate} Call Subject - ${body.callSubject} Company Name - ${body.companyName} Call Type - ${body.callType} Status - ${body.status}`, {textFormat: 'xml'});
         });
-        
+
     },
     function (session, results) {
         continueConversation (session, results)
@@ -116,7 +117,7 @@ bot.dialog('cobRequest', [
         };
         request.httpRequest(params).then(function(body) {
             builder.Prompts.text(session, `Customer Name - ${body.customerName} is currently in Onboarding ${body.status} status.`, {textFormat: 'xml'});
-        });  
+        });
     },
     function (session, results) {
         continueConversation (session, results)
@@ -170,5 +171,31 @@ bot.dialog('endDialog', [
         session.endDialog();
     }
 ]);
-
-
+bot.dialog('dealCCRStatus', [
+    function (session) {
+        var params = {
+            method: 'GET',
+            path: '/api/dealCCRStatus'
+        };
+        request.httpRequest(params).then(function(body) {
+            builder.Prompts.text(session, `Conflicts Clearance Status for the Deal <b>${body.dealName}</b> is currently <b>${body.stage}</b> stage.`, {textFormat: 'xml'});
+        });
+    },
+    function (session, results) {
+        continueConversation (session, results)
+    }
+]);
+bot.dialog('documentDetails', [
+    function (session) {
+        var params = {
+            method: 'GET',
+            path: '/api/documentDetails'
+        };
+        request.httpRequest(params).then(function(body) {
+            builder.Prompts.text(session, `Below document details upload are pending <br/><b>${body.doc1}</b><br/><b>${body.doc2}</b>.`, {textFormat: 'xml'});
+        });
+    },
+    function (session, results) {
+        continueConversation (session, results)
+    }
+]);

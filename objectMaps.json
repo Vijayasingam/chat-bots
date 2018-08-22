@@ -2,6 +2,8 @@
     "gems_request" : "gemsRequest",
     "cdd_request" : "cobRequest",
     "deal_pipeline_request" : "dealStageRequest",
+    "ccr_status_request" : "dealCCRStatus",
+    "doc_details_request" : "documentDetails",
     "thankYou": "thankYou",
     "askQuery": "askQuery"
 }
