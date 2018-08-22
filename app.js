@@ -178,7 +178,7 @@ bot.dialog('dealCCRStatus', [
             path: '/api/dealCCRStatus'
         };
         request.httpRequest(params).then(function(body) {
-            builder.Prompts.text(session, `Conflicts Clearance Status for the Deal <b>${body.dealName}</b> is currently <b>${body.stage}</b> stage.`, {textFormat: 'xml'});
+            builder.Prompts.text(session, `Conflicts Clearance Status for the Deal <b>${body.dealName}</b> is currently <b>${body.ccrStatus}</b> stage.`, {textFormat: 'xml'});
         });
     },
     function (session, results) {
