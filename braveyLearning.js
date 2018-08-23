@@ -67,6 +67,7 @@ exports.init = function (Bravey, nlp) {
     document.addMatch("document", "Deal Docs");
     document.addMatch("document", "Docs");
     document.addMatch("document", "docs");
+    document.addMatch("document", "doc");
     nlp.addEntity(document);
     nlp.addDocument("I want pending {doc_details_req_identifier}", "doc_details_request");
     nlp.addDocument("Help me with {doc_details_req_identifier} required list", "doc_details_request");
