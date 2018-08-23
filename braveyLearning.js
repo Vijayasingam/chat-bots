@@ -73,14 +73,13 @@ exports.init = function (Bravey, nlp) {
     nlp.addDocument("What are the {doc_details_req_identifier} pending", "doc_details_request");
 
     nlp.addIntent("recent_complaints", [{ entity: "recent_comp_req_identifier", id: "rec_comp_type" }]);
-    var rcnt_comp = new Bravey.StringEntityRecognizer("gems_case_req_identifier");
+    var rcnt_comp = new Bravey.StringEntityRecognizer("recent_comp_req_identifier");
     rcnt_comp.addMatch("rcnt_comp", "Recent Complaints");
     rcnt_comp.addMatch("rcnt_comp", "latest complaints");
     rcnt_comp.addMatch("rcnt_comp", "SR");
     rcnt_comp.addMatch("rcnt_comp", "Compliant");
     rcnt_comp.addMatch("rcnt_comp", "Recent Compliant");
     nlp.addEntity(rcnt_comp);
-
     nlp.addDocument("I want {recent_comp_req_identifier}", "recent_complaints");
     nlp.addDocument("Help me with {recent_comp_req_identifier}", "recent_complaints");
     nlp.addDocument("Get me {recent_comp_req_identifier} from the client", "recent_complaints");
