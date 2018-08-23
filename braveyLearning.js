@@ -35,14 +35,15 @@ exports.init = function (Bravey, nlp) {
     nlp.addDocument("fine", "thankYou");
 
     nlp.addIntent("askQuery", []);
-    nlp.addDocument("Hi hello", "askQuery");
+    nlp.addDocument("Hi hello hey", "askQuery");
     nlp.addDocument("Hey", "askQuery");
     nlp.addDocument("Hello", "askQuery");
     nlp.addDocument("Hi", "askQuery");
 
     nlp.addIntent("confirmQuery", []);
     nlp.addDocument("yeah", "confirmQuery");
-    nlp.addDocument("yes please", "confirmQuery");
+    nlp.addDocument("yes please yep yeah", "confirmQuery");
+    nlp.addDocument("yes please");
     nlp.addDocument("yep", "confirmQuery");
     nlp.addDocument("yes", "confirmQuery");
 
