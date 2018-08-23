@@ -215,7 +215,7 @@ bot.dialog('recentComplaints', [
             path: '/api/confirmQuery'
         };
         request.httpRequest(params).then(function(body) {
-            builder.Prompts.text(session, `Below is the recent complaint raised for <b>${body.clientName}<br/><b>Name</b> - ${body.name} <br/><b>Product Group</b> - ${body.productGroup} <br/><b>Query Type</b> - ${body.queryType} <br/><b>Classification</b> - ${body.classification} <br/><b>Created Date</b> - ${body.createdDate} <br/><b>Status</b> - ${body.status} <br/><b>Last Updated By</b> - ${body.lastUpdatedBy}`, {textFormat: 'xml'});
+            builder.Prompts.text(session, `Below is the recent complaint raised for`, {textFormat: 'xml'});
         });
     },
     function (session, results) {
