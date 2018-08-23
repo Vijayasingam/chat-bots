@@ -11,7 +11,7 @@ exports.gemsData = function (req, res) {
     if (req.params.id === "SR-AE-20170909-TD1231") {
         res.send({
             "error": false,
-            "name": "XYZ Corp Merger",
+            "name": "XYZ Corp",
             "productGroup": "Money Management",
             "classification": "Complaint",
             "createdDate": "09 Aug 2018",
@@ -54,7 +54,7 @@ exports.confirmQuery = function (req, res) {
     res.send({
         "error": false,
         "clientName": "XYZ Corp",
-        "name": "XYZ Corp Merger",
+        "name": "XYZ Corp",
         "productGroup": "Money Management",
         "classification": "Complaint",
         "createdDate": "09 Aug 2018",
