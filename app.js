@@ -203,9 +203,7 @@ bot.dialog('documentDetails', [
 ]);
 bot.dialog('recentComplaints', [
     function (session) {
-        request.httpRequest(params).then(function(body) {
-            builder.Prompts.text(session, `Are you referring to the current deal's client - <b>XYZ Corp Merger</b>?`, {textFormat: 'xml'});
-        });
+        builder.Prompts.text(session, `Are you referring to the current deal's client - <b>XYZ Corp Merger</b>?`, {textFormat: 'xml'});
     },
     function (session, results) {
         continueConversation (session, results)
