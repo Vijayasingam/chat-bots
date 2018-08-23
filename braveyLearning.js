@@ -90,7 +90,13 @@ exports.init = function (Bravey, nlp) {
     console.log(nlp.test("Help me with Conflicts Clearance"));
     console.log(nlp.test("What are the docs pending to be uploaded for closure"));
     console.log(nlp.test("Hello"));
+    console.log("*****************************");
     console.log(nlp.test("Yeah"));
+    console.log("*****************************");
+    console.log(nlp.test("yep"));
+    console.log("*****************************");
+    console.log(nlp.test("yes"));
+    console.log("*****************************");
     console.log(nlp.test("Yes please"));
     console.log(nlp.test("what is the recent complaint raised by this client"))
 }

@@ -1,6 +1,6 @@
 exports.callReportData = function (req, res) {
     res.send({
-        "callDate": "10 Jul 2017",
+        "callDate": "10 Jul 2018",
         "callSubject": "Sales Discussion",
         "companyName": "XYZ Corp",
         "callType": "Multi-Purpose",
@@ -14,7 +14,7 @@ exports.gemsData = function (req, res) {
             "name": "XYZ Corp Merger",
             "productGroup": "Money Management",
             "classification": "Complaint",
-            "createdDate": "09 Aug 2017",
+            "createdDate": "09 Aug 2018",
             "status": "Overdue",
             "queryType": "Account Opening / Closing Related",
             "lastUpdatedBy": "1109908 - LName, FName"
@@ -53,10 +53,11 @@ exports.documentDetails = function (req, res) {
 exports.confirmQuery = function (req, res) {
     res.send({
         "error": false,
+        "clientName": "XYZ Corp",
         "name": "XYZ Corp Merger",
         "productGroup": "Money Management",
         "classification": "Complaint",
-        "createdDate": "09 Aug 2017",
+        "createdDate": "09 Aug 2018",
         "status": "Overdue",
         "queryType": "Account Opening / Closing Related",
         "lastUpdatedBy": "1109908 - LName, FName"
