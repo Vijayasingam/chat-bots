@@ -62,7 +62,7 @@ bot.dialog('askQuery', [
 ]);
 bot.dialog('askQuery2', [
     function (session) {
-        builder.Prompts.text(session, 'I can help you with following information, <br/>1. GEMS Case enquiry.<br/>2. Deal stage query.', {textFormat: 'xml'});
+        builder.Prompts.text(session, 'I can help you with following information, <br/>1. Client Details and Client related informations.<br/>2. Deal stage queries.', {textFormat: 'xml'});
     },
     function (session, results) {
         continueConversation (session, results)
@@ -211,7 +211,8 @@ bot.dialog('recentComplaints', [
 ]);
 bot.dialog('confirmQuery', [
     function (session) {
-        console.log("I am in confirm query dialog");
+        session.send('Below is the recent complaint raised for <b>${body.clientName}<br/><b>Name</b> - ${body.name} <br/><b>Product Group</b> - ${body.productGroup} <br/><b>Query Type</b> - ${body.queryType} <br/><b>Classification</b> - ${body.classification} <br/><b>Created Date</b> - ${body.createdDate} <br/><b>Status</b> - ${body.status} <br/><b>Last Updated By</b> - ${body.lastUpdatedBy}');
+/*         console.log("I am in confirm query dialog");
         var params = {
             method: 'GET',
             path: '/api/confirmQuery'
@@ -219,7 +220,7 @@ bot.dialog('confirmQuery', [
         request.httpRequest(params).then(function(body) {
             console.log("I am gonna emit text");
             builder.Prompts.text(session, `Below is the recent complaint raised for <b>${body.clientName}<br/><b>Name</b> - ${body.name} <br/><b>Product Group</b> - ${body.productGroup} <br/><b>Query Type</b> - ${body.queryType} <br/><b>Classification</b> - ${body.classification} <br/><b>Created Date</b> - ${body.createdDate} <br/><b>Status</b> - ${body.status} <br/><b>Last Updated By</b> - ${body.lastUpdatedBy}`, {textFormat: 'xml'});
-        });
+        }); */
     },
     function (session, results) {
         continueConversation (session, results)
