@@ -30,6 +30,7 @@ exports.init = function (Bravey, nlp) {
 
     nlp.addIntent("thankYou", []);
     nlp.addDocument("Thank you", "thankYou");
+    nlp.addDocument("Thank you thanks bye cool great", "thankYou");
     nlp.addDocument("thanks", "thankYou");
     nlp.addDocument("bye", "thankYou");
     nlp.addDocument("fine", "thankYou");
