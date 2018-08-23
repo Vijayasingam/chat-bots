@@ -2,22 +2,22 @@ exports.callReportData = function (req, res) {
     res.send({
         "callDate": "10 Jul 2017",
         "callSubject": "Sales Discussion",
-        "companyName": "XYZ Corp.",
+        "companyName": "XYZ Corp",
         "callType": "Multi-Purpose",
-        "status": "Completed"
+        "status": "Open"
     });
 }
 exports.gemsData = function (req, res) {
     if (req.params.id === "SR-AE-20170909-TD1231") {
         res.send({
             "error": false,
-            "name": "XYZ Corp.",
+            "name": "XYZ Corp Merger",
             "productGroup": "Money Management",
             "classification": "Complaint",
-            "createdDate": "09 Sep 2017",
+            "createdDate": "09 Aug 2017",
             "status": "Overdue",
             "queryType": "Account Opening / Closing Related",
-            "lastUpdatedBy": "1109908 - Joe, John"
+            "lastUpdatedBy": "1109908 - LName, FName"
         });
     } else {
         res.send({
@@ -34,13 +34,13 @@ exports.COBData = function (req, res) {
 }
 exports.dealData = function (req, res) {
     res.send({
-        "dealName": "XYZ Transit",
+        "dealName": "XYZ Corp Merger",
         "stage": "Marketing"
     });
 }
 exports.dealCCRStatus = function (req, res) {
     res.send({
-        "dealName": "XYZ Transit",
+        "dealName": "XYZ Corp Merger",
         "ccrStatus": "Business Input Required"
     });
 }
@@ -48,5 +48,17 @@ exports.documentDetails = function (req, res) {
     res.send({
         "doc1": "HOS Sheet",
         "doc2": "FATCA Report"
+    });
+}
+exports.confirmQuery = function (req, res) {
+    res.send({
+        "error": false,
+        "name": "XYZ Corp Merger",
+        "productGroup": "Money Management",
+        "classification": "Complaint",
+        "createdDate": "09 Aug 2017",
+        "status": "Overdue",
+        "queryType": "Account Opening / Closing Related",
+        "lastUpdatedBy": "1109908 - LName, FName"
     });
 }

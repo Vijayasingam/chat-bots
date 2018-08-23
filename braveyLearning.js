@@ -5,8 +5,7 @@ exports.init = function (Bravey, nlp) {
     gems.addMatch("gems", "gems");
     gems.addMatch("gems", "Gems");
     gems.addMatch("gems", "Service Request");
-    gems.addMatch("gems", "Compliant");
-    gems.addMatch("gems", "GEMS Compliant");
+    gems.addMatch("gems", "GEMS Case");
     nlp.addEntity(gems);
     var gems_sr_nbr = new Bravey.RegexEntityRecognizer("gems_case_id");
     gems_sr_nbr.addMatch(new RegExp("SR-[A-Z]{2}-[0-9]{8}-[A-Z,0-9]{6}", "gi"), function() {return true});
@@ -32,11 +31,20 @@ exports.init = function (Bravey, nlp) {
     nlp.addIntent("thankYou", []);
     nlp.addDocument("Thank you", "thankYou");
     nlp.addDocument("thanks", "thankYou");
+    nlp.addDocument("bye", "thankYou");
+    nlp.addDocument("fine", "thankYou");
 
     nlp.addIntent("askQuery", []);
     nlp.addDocument("Hi hello", "askQuery");
     nlp.addDocument("Hey", "askQuery");
     nlp.addDocument("Hello", "askQuery");
+    nlp.addDocument("Hi", "askQuery");
+
+    nlp.addIntent("confirmQuery", []);
+    nlp.addDocument("yeah", "confirmQuery");
+    nlp.addDocument("yes please", "confirmQuery");
+    nlp.addDocument("yep", "confirmQuery");
+    nlp.addDocument("yes", "confirmQuery");
 
     nlp.addIntent("ccr_status_request", [{ entity: "ccr_status_req_identifier", id: "ccr_type" }]);
     var ccr = new Bravey.StringEntityRecognizer("ccr_status_req_identifier");
@@ -64,8 +72,26 @@ exports.init = function (Bravey, nlp) {
     nlp.addDocument("Get me {doc_details_req_identifier} pending details", "doc_details_request");
     nlp.addDocument("What are the {doc_details_req_identifier} pending", "doc_details_request");
 
+    nlp.addIntent("recent_complaints", [{ entity: "recent_comp_req_identifier", id: "rec_comp_type" }]);
+    var rcnt_comp = new Bravey.StringEntityRecognizer("gems_case_req_identifier");
+    rcnt_comp.addMatch("rcnt_comp", "Recent Complaints");
+    rcnt_comp.addMatch("rcnt_comp", "latest complaints");
+    rcnt_comp.addMatch("rcnt_comp", "SR");
+    rcnt_comp.addMatch("rcnt_comp", "Compliant");
+    rcnt_comp.addMatch("rcnt_comp", "Recent Compliant");
+    nlp.addEntity(rcnt_comps);
+
+    nlp.addDocument("I want {recent_comp_req_identifier}", "recent_complaints");
+    nlp.addDocument("Help me with {recent_comp_req_identifier}", "recent_complaints");
+    nlp.addDocument("Get me {recent_comp_req_identifier} from the client", "recent_complaints");
+    nlp.addDocument("What is {recent_comp_req_identifier} by this client", "recent_complaints");
+    
     console.log(nlp.test("Get me GEMS case details for SR-AE-20170909-TD1231"));
     console.log(nlp.test("What is the Deal stage for DEAL-XY-2022-22-222000"));
     console.log(nlp.test("Help me with Conflicts Clearance"));
     console.log(nlp.test("What are the docs pending to be uploaded for closure"));
+    console.log(nlp.test("Hello"));
+    console.log(nlp.test("Yeah"));
+    console.log(nlp.test("Yes please"));
+    console.log(nlp.test("what is the recent complaint raised by this client"))
 }

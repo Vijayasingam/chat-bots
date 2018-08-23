@@ -40,6 +40,8 @@ server.get('/api/cobDetails', mockServer.COBData);
 server.get('/api/dealDetails', mockServer.dealData);
 server.get('/api/dealCCRStatus', mockServer.dealCCRStatus);
 server.get('/api/documentDetails', mockServer.documentDetails);
+server.get('/api/confirmQuery', mockServer.confirmQuery);
+
 // Receive messages from the user and respond by echoing each message back (prefixed with 'You said:')
 var bot = new builder.UniversalBot(connector, function (session, results, config) {
     session.send (`Hi ${session.message.user.name} !`)
@@ -178,7 +180,7 @@ bot.dialog('dealCCRStatus', [
             path: '/api/dealCCRStatus'
         };
         request.httpRequest(params).then(function(body) {
-            builder.Prompts.text(session, `Conflicts Clearance Status for the Deal <b>${body.dealName}</b> is currently <b>${body.ccrStatus}</b> stage.`, {textFormat: 'xml'});
+            builder.Prompts.text(session, `Conflicts Clearance Status for the Deal <b>${body.dealName}</b> is <b>${body.ccrStatus}</b>.`, {textFormat: 'xml'});
         });
     },
     function (session, results) {
@@ -193,6 +195,33 @@ bot.dialog('documentDetails', [
         };
         request.httpRequest(params).then(function(body) {
             builder.Prompts.text(session, `Below document details upload are pending <br/><b>${body.doc1}</b><br/><b>${body.doc2}</b>.`, {textFormat: 'xml'});
+        });
+    },
+    function (session, results) {
+        continueConversation (session, results)
+    }
+]);
+bot.dialog('recentComplaints', [
+    function (session) {
+        request.httpRequest(params).then(function(body) {
+            builder.Prompts.text(session, `Are you referring to the current deal's client - <b>XYZ Corp Merger</b>?`, {textFormat: 'xml'});
+        });
+    },
+    function (session, results) {
+        continueConversation (session, results)
+    }
+]);
+bot.dialog('confirmQuery', [
+    function (session) {
+        var params = {
+            method: 'GET',
+            path: '/api/confirmQuery'
+        };
+        request.httpRequest(params).then(function(body) {
+            builder.Prompts.text(session, `Below is the recent complaint raised for <b>${body.clientName}<br/>
+            <b>Name</b> - ${body.name} <br/><b>Product Group</b> - ${body.productGroup} <br/><b>Query Type</b> - ${body.queryType} <br/>
+            <b>Classification</b> - ${body.classification} <br/><b>Created Date</b> - ${body.createdDate} <br/><b>Status</b> - ${body.status} <br/>
+            <b>Last Updated By</b> - ${body.lastUpdatedBy}`, {textFormat: 'xml'});
         });
     },
     function (session, results) {

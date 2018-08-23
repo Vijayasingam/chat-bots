@@ -4,6 +4,8 @@
     "deal_pipeline_request" : "dealStageRequest",
     "ccr_status_request" : "dealCCRStatus",
     "doc_details_request" : "documentDetails",
+    "recent_complaints" : "recentComplaints",
+    "confirmQuery" : "confirmQuery",
     "thankYou": "thankYou",
     "askQuery": "askQuery"
 }
