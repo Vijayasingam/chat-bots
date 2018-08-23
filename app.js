@@ -194,7 +194,7 @@ bot.dialog('documentDetails', [
             path: '/api/documentDetails'
         };
         request.httpRequest(params).then(function(body) {
-            builder.Prompts.text(session, `Below document details upload are pending <br/><b>${body.doc1}</b><br/><b>${body.doc2}</b>.`, {textFormat: 'xml'});
+            builder.Prompts.text(session, `Below document details upload are pending <br/><b>${body.doc1}</b><br/><b>${body.doc2}</b>.<br/>For more details, please refer <a href="https://www.global.standardchartered.com/dealpipeline/deal-pipeline/20180909123321/000/000/deal-deetails">WorkBench</a>`, {textFormat: 'xml'});
         });
     },
     function (session, results) {
